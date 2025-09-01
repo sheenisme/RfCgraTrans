@@ -77,15 +77,18 @@ do
     rm Schedule*.out
     rm map*.txt
     rm simpleSchedule*.out
+    rm  *.ll
+    rm  *.mlir
+    rm  *.pluto*
 done
 
-for dir in $dirList; 
-do
-    echo "run start"
-    echo $dir
-    cd "$BASE/$dir"
-    for t in $TOOLS; 
-    do
-        run $t $dir
-    done
-done
+# for dir in $dirList; 
+# do
+#     echo "run start"
+#     echo $dir
+#     cd "$BASE/$dir"
+#     for t in $TOOLS; 
+#     do
+#         run $t $dir
+#     done
+# done
