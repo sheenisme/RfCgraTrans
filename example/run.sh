@@ -3,11 +3,11 @@
 # set -o errexit
 # set -o pipefail
 # set -o nounset
-export PATH=/home/huangl/workspace/mlir-clang/build/bin:/home/huangl/workspace/RfCgraTrans/build/bin:/home/huangl/workspace/RfCgraTrans/pluto:/home/huangl/workspace/polygeist/build/bin:$PATH
-export C_INCLUDE_PATH=/home/huangl/workspace/mlir-clang/build/projects/openmp/runtime/src
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/huangl/workspace/RfCgraTrans/build/pluto/lib:/home/huangl/workspace/mlir-clang/build/lib:/home/huangl/workspace/RfCgraTrans/glpk/glpk-5.0/src
-stdinclude=/home/huangl/workspace/mlir-clang/llvm/../clang/lib/Headers
-CFLAGS="-march=native -I /home/huangl/workspace/script/polybench-c-4.2.1-beta/utilities -I $stdinclude -D POLYBENCH_TIME -D POLYBENCH_NO_FLUSH_CACHE -D EXTRALARGE_DATASET "
+export PATH=~/workspace/mlir-clang/build/bin:~//workspace/RfCgraTrans/build/bin:~//workspace/RfCgraTrans/pluto:~/workspace/polygeist/build/bin:$PATH
+export C_INCLUDE_PATH=~/workspace/mlir-clang/build/projects/openmp/runtime/src
+export LD_LIBRARY_PATH=~/workspace/RfCgraTrans/build/pluto/lib:~/workspace/mlir-clang/build/lib:~/workspace/RfCgraTrans/glpk/glpk-5.0/src:$LD_LIBRARY_PATH
+stdinclude=~/workspace/mlir-clang/llvm/../clang/lib/Headers
+CFLAGS="-march=native -I /root/workspace/script/PolyBenchC-4.2.1/utilities -I $stdinclude -D POLYBENCH_TIME -D POLYBENCH_NO_FLUSH_CACHE -D EXTRALARGE_DATASET "
 
 TOOLS="RfCgraTrans"
 
@@ -82,13 +82,13 @@ do
     rm  *.pluto*
 done
 
-# for dir in $dirList; 
-# do
-#     echo "run start"
-#     echo $dir
-#     cd "$BASE/$dir"
-#     for t in $TOOLS; 
-#     do
-#         run $t $dir
-#     done
-# done
+for dir in $dirList; 
+do
+    echo "run start"
+    echo $dir
+    cd "$BASE/$dir"
+    for t in $TOOLS; 
+    do
+        run $t $dir
+    done
+done

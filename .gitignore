@@ -74,5 +74,6 @@
 *.log
 */autom4te.cache/*
 */*/autom4te.cache/*
+/example/*
 !/example/*/*.c
 !/example/*/*.h
