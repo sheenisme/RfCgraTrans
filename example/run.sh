@@ -48,7 +48,7 @@ function run()
       -pluto-opt="dump-clast-after-pluto=$TEST.$TOOL.cloog" \
       -canonicalize $TEST.$TOOL.in.mlir 2>/dev/null > $TEST.$TOOL.out.mlir
 
-      mlir-opt -lower-affine -convert-scf-to-std -canonicalize -convert-std-to-llvm $TEST.$TOOL.out.mlir 
+      mlir-opt -lower-affine -convert-scf-to-std -canonicalize -convert-std-to-llvm $TEST.$TOOL.out.mlir > $OUT 2>&1
       #mlir-translate -mlir-to-llvmir > $OUT
       ;;
 
