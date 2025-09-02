@@ -202,7 +202,7 @@ int findBound(mlir::AffineForOp forOp, mlir::AffineMap affinemap,
       }
     }
   }
-  return Bound;
+  return Bound; 
 }
 void subLoopCycleCompute(mlir::AffineForOp forOp, DFGList dfgList,
                          mlir::FuncOp g, mlir::MLIRContext *context,
@@ -540,7 +540,7 @@ static mlir::FuncOp plutoTransform(mlir::FuncOp f, OpBuilder &rewriter,
   for (int i = 0; i < prog->ndeps; i++) {
     prog->deps[i]->satisfied = false;
   }
-  // os << "\n============进入pluto变换==========\n";
+
   /* Create the data dependence graph */
   prog->ddg = ddg_create(prog);
   ddg_compute_scc(prog);
@@ -692,17 +692,17 @@ static mlir::FuncOp plutoTransform(mlir::FuncOp f, OpBuilder &rewriter,
     moduleop = dyn_cast<mlir::ModuleOp>(f->getParentOp());
     std::string funcName;
     std::string optFlag = "opt";
-    moduleop.walk([&](mlir::FuncOp f) {
-      llvm::StringRef sourceFuncName = f.getName();
-      // os<<sourceFuncName;
-      funcName = (std::string)sourceFuncName;
-      if (funcName.length() > 4) {
-        if (funcName.substr(funcName.length() - 3, funcName.length() - 1) ==
-            optFlag) {
-          f.erase();
-        }
-      }
-    });
+    // moduleop.walk([&](mlir::FuncOp f) {
+    //   llvm::StringRef sourceFuncName = f.getName();
+    //   // os<<sourceFuncName;
+    //   funcName = (std::string)sourceFuncName;
+    //   if (funcName.length() > 4) {
+    //     if (funcName.substr(funcName.length() - 3, funcName.length() - 1) ==
+    //         optFlag) {
+    //       f.erase();
+    //     }
+    //   }
+    // });
 
     //======================step3=====================
     pluto_our_schedule_prog(&pluto_trans[n], topSortList, scc_dim);
@@ -723,9 +723,9 @@ static mlir::FuncOp plutoTransform(mlir::FuncOp f, OpBuilder &rewriter,
     pluto_trans[n].is_global = 0;
     int unroll_transNum = 0;
     if (pluto_trans[n].is_succeed) {
-      PerfProfiling(moduleop, g, rewriter.getContext(), &pluto_trans[n],
-                    scc_num, maxDim, final_unroll_Switch, unroll_transNum,
-                    TransV[n], scc_stmt_topSort_map);
+      // PerfProfiling(moduleop, g, rewriter.getContext(), &pluto_trans[n],
+      //               scc_num, maxDim, final_unroll_Switch, unroll_transNum,
+      //               TransV[n], scc_stmt_topSort_map);
       pluto_context_free(context);
       //os << "\ntransformation success\n";
       // TransV[n].print();
@@ -787,17 +787,17 @@ static mlir::FuncOp plutoTransform(mlir::FuncOp f, OpBuilder &rewriter,
           moduleop = dyn_cast<mlir::ModuleOp>(f->getParentOp());
           std::string funcName;
           std::string optFlag = "opt";
-          moduleop.walk([&](mlir::FuncOp f) {
-            llvm::StringRef sourceFuncName = f.getName();
-            // os<<sourceFuncName;
-            funcName = (std::string)sourceFuncName;
-            if (funcName.length() > 4) {
-              if (funcName.substr(funcName.length() - 3,
-                                  funcName.length() - 1) == optFlag) {
-                f.erase();
-              }
-            }
-          });
+          // moduleop.walk([&](mlir::FuncOp f) {
+          //   llvm::StringRef sourceFuncName = f.getName();
+          //   // os<<sourceFuncName;
+          //   funcName = (std::string)sourceFuncName;
+          //   if (funcName.length() > 4) {
+          //     if (funcName.substr(funcName.length() - 3,
+          //                         funcName.length() - 1) == optFlag) {
+          //       f.erase();
+          //     }
+          //   }
+          // });
           //======================sub_step3=====================
           pluto_our_schedule_prog(&pluto_trans_sub[m], topSortList, scc_dim);
           pluto_populate_scop(scop_sub->get(), pluto_trans_sub[m].prog,
@@ -819,10 +819,10 @@ static mlir::FuncOp plutoTransform(mlir::FuncOp f, OpBuilder &rewriter,
           pluto_trans_sub[m].is_global = 0;
           int unroll_transNum_sub = 0;
           if (pluto_trans_sub[m].is_succeed) {
-            PerfProfiling(moduleop, g, rewriter.getContext(),
-                          &pluto_trans_sub[m], scc_num, maxDim,
-                          final_unroll_Switch, unroll_transNum, TransV_sub[m],
-                          scc_stmt_topSort_map);
+            // PerfProfiling(moduleop, g, rewriter.getContext(),
+            //               &pluto_trans_sub[m], scc_num, maxDim,
+            //               final_unroll_Switch, unroll_transNum, TransV_sub[m],
+            //               scc_stmt_topSort_map);
             // os << "\nsub transformation success\n";
             // TransV_sub[m].print();
             pluto_context_free(context_sub);
@@ -900,16 +900,16 @@ static mlir::FuncOp plutoTransform(mlir::FuncOp f, OpBuilder &rewriter,
   moduleop = dyn_cast<mlir::ModuleOp>(f->getParentOp());
   std::string funcName;
   std::string optFlag = "opt";
-  moduleop.walk([&](mlir::FuncOp f) {
-    llvm::StringRef sourceFuncName = f.getName();
-    funcName = (std::string)sourceFuncName;
-    if (funcName.length() > 4) {
-      if (funcName.substr(funcName.length() - 3, funcName.length() - 1) ==
-          optFlag) {
-        f.erase();
-      }
-    }
-  });
+  // moduleop.walk([&](mlir::FuncOp f) {
+  //   llvm::StringRef sourceFuncName = f.getName();
+  //   funcName = (std::string)sourceFuncName;
+  //   if (funcName.length() > 4) {
+  //     if (funcName.substr(funcName.length() - 3, funcName.length() - 1) ==
+  //         optFlag) {
+  //       f.erase();
+  //     }
+  //   }
+  // });
 
   pluto_our_schedule_prog(finalSolution, topSortList, scc_dim);
   pluto_populate_scop(scopParent->get(), finalSolution->prog, contextParent);
@@ -933,9 +933,9 @@ static mlir::FuncOp plutoTransform(mlir::FuncOp f, OpBuilder &rewriter,
   for (fuseComponent *v : finalTrans.CompV) {
     v->Cost = 0;
   }
-  PerfProfiling(moduleop, finalG, rewriter.getContext(), finalSolution, scc_num,
-                maxDim, final_unroll_Switch, unroll_transNum1, finalTrans,
-                scc_stmt_topSort_map);
+  // PerfProfiling(moduleop, finalG, rewriter.getContext(), finalSolution, scc_num,
+  //               maxDim, final_unroll_Switch, unroll_transNum1, finalTrans,
+  //               scc_stmt_topSort_map);
   long long finalCost = 0;
 
   pluto_context_free(contextParent);

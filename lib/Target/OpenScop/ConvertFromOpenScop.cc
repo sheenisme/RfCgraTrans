@@ -1482,7 +1482,10 @@ mlir::Operation *RfCgraTrans::judgeFuncOpFromOpenScop(
   options->scop = NULL; // Prevents freeing the scop object.
   cloog_options_free(options);
   cloog_state_free(state);
-
+  mlir::Operation *funcOp = deserializer.getFunc();
+  if(mlir::FuncOp newfuncOp = dyn_cast<mlir::FuncOp>(funcOp)){
+      newfuncOp.setName("kernel_opt_"+std::to_string(times));
+  }
   return deserializer.getFunc();
 }
 

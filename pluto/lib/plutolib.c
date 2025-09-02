@@ -79,9 +79,14 @@ int pluto_our_schedule_prog(plutoCost_Matrix *pluto_trans_Cost,int *topSortList,
   //   /* Print out transformations */
   //   pluto_transformations_pretty_print(prog);
   // }
-  options->tile = 0;
-  options->intratileopt =0;
-  options->parallel =0;
+  // options->tile = 0;
+  // options->intratileopt =0;
+  // options->parallel =0;
+
+  options->tile = 1;
+  options->intratileopt =1;
+  options->parallel =1;
+
   if (options->tile) {
     pluto_tile(prog);
   } else {
