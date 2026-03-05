@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    container:
+      image: ubuntu:20.04
+      options: --privileged
+    steps:
+      - name: Install dependencies
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update
+          apt-get install -y \
+            tzdata build-essential libtool autoconf pkg-config flex bison \
+            libgmp-dev clang-9 libclang-9-dev texinfo \
+            cmake ninja-build git numactl
+
+      - name: Configure alternatives for LLVM/Clang-9
+        run: |
+          update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-9 100
+          update-alternatives --install /usr/bin/FileCheck FileCheck /usr/bin/FileCheck-9 100
+          update-alternatives --install /usr/bin/clang clang /usr/bin/clang-9 100
+          update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-9 100
+
+      - name: Ensure CMake version (>= 3.10)
+        run: |
+          set -e
+          apt-get update
+          cmake --version
+          CMAKE_VER="$(cmake --version | head -n1 | awk '{print $3}')"
+          if ! dpkg --compare-versions "$CMAKE_VER" ge "3.10"; then
+            echo "Detected CMake $CMAKE_VER (< 3.10), trying apt upgrade..."
+            apt-get install -y --only-upgrade cmake
+            cmake --version
+            CMAKE_VER="$(cmake --version | head -n1 | awk '{print $3}')"
+          fi
+
+          if ! dpkg --compare-versions "$CMAKE_VER" ge "3.10"; then
+            echo "CMake is still $CMAKE_VER after apt upgrade, requires >= 3.10"
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build project
+        run: |
+          chmod +x build.sh
+          ./build.sh --yes
+
+      - name: Verify build artifacts
+        run: |
+          test -d build/bin
+          ls -la env.sh 
+          ls -la build/
+
+      - name: Run example tests
+        shell: bash
+        run: |
+          ls -la env.sh
+          source ./env.sh
+          cd example
+          chmod +x run.sh
+          ./run.sh

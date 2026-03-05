@@ -838,6 +838,10 @@ static mlir::FuncOp plutoTransform(mlir::FuncOp f, OpBuilder &rewriter,
       }
     }
   }
+  // // Dumping the transformation results of each component
+  // for (int n = 0; n < mintransIds; n++) {
+  //   TransV[n].print();
+  // }
 //  gettimeofday(&Ourtv1, 0);
 //   os << "--------------------- Transformation Time -----------------------\n";
 //   printf("Transformation time: %lf \n",
@@ -936,7 +940,14 @@ static mlir::FuncOp plutoTransform(mlir::FuncOp f, OpBuilder &rewriter,
   PerfProfiling(moduleop, finalG, rewriter.getContext(), finalSolution, scc_num,
                 maxDim, final_unroll_Switch, unroll_transNum1, finalTrans,
                 scc_stmt_topSort_map);
+  // Dumping the final solution
+  finalTrans.print();
+  // Conputing the final cost of the solution
   long long finalCost = 0;
+  for (fuseComponent *v : finalTrans.CompV) {
+    finalCost += v->Cost;
+  }
+  fprintf(stderr, "\nFinal Solution Latency: %lld\n", finalCost);
 
   pluto_context_free(contextParent);
   //===========================end final solution===========================

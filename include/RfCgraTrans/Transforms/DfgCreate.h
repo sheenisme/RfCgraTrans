@@ -41,7 +41,7 @@ namespace RfCgraTrans {
 # define Experimental_option 1
 # define PBPMethod 0
 # define search_trans_unroll_Switch 1 
-# define final_unroll_Switch 2
+# define final_unroll_Switch 1
 # define schedule_Switch 1
 # define DFGLength 3
 # define AfterUnrollDFGLength 3

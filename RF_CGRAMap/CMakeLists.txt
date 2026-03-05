@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(RfCgraMap)
 
 #Generate the static library from the library sources
@@ -23,9 +23,17 @@ set(rfCGRAH include/CGRA.h
         include/GraphRegister.h  
         include/Path.h)
 
-#set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/RF_CGRAMap)
-set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
+# Use the CMAKE_INSTALL_PREFIX variable to specify the installation directory. If it is not set, default to the project source directory.
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR} CACHE PATH "Installation directory" FORCE)
+endif()
+
+# Install the library and header files
 install(TARGETS RfCgraMap
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib  # 静态库安装路径
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include  # 头文件安装路径
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        )
+install(DIRECTORY include/
+        DESTINATION include
+        FILES_MATCHING PATTERN "*.h"
         )

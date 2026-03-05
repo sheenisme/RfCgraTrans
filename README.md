@@ -58,10 +58,10 @@ cmake ninja-build git texlive-full numactl
 ```
 After downloading, perform version control for better support of PLuTo.
 ```
-update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-9 100
-update-alternatives --install /usr/bin/FileCheck FileCheck /usr/bin/FileCheck-9 100
-update-alternatives --install /usr/bin/clang clang /usr/bin/clang-9 100
-update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-9 100
+sudo update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-9 100
+sudo update-alternatives --install /usr/bin/FileCheck FileCheck /usr/bin/FileCheck-9 100
+sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-9 100
+sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-9 100
 ```
 First, complite the pluto tool
 ```
